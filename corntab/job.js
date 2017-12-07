@@ -45,7 +45,7 @@ function loadAllURls() {
     // })
     // .then(
     //   entries => {
-    //     return entries.filter(e => e.indexOf('2017-1206') >= 0)
+    //     return entries.filter(e => e.indexOf('2016') >= 0)
     // }
     // )
 }
@@ -72,6 +72,7 @@ function AV_query_promise(class_name, object_id,data) {
 function save_entry_index (value) {
   let ENTRIES = AV.Object.createWithoutData('ENTRIES', '5a2801ba2f301e00631bb1b4');
 
+  console.log("__________________" + JSON.stringify(dataAll))
   ENTRIES.set('entries', JSON.stringify(dataAll))
   ENTRIES.save().catch(
    error => console.error("______________" + error)
@@ -93,6 +94,7 @@ function fetchURLsDetail(URLs) {
 }
 
 function SAVE_TO_LEANCLOUD () {
+  console.log("aaaa")
   loadAllURls()
   .then(
     data => {
@@ -102,13 +104,13 @@ function SAVE_TO_LEANCLOUD () {
       return data.filter(d => !exists.includes(d))
     })
   })
-  // .then(n => {
-  //   if (!n.length) { 
-  //     console.log('Nothing new!'); 
-  //     return 
-  //   }
-  //   fetchURLsDetail(n).then(urls_obj => save_entry_index(urls_obj))
-  // })
+  .then(n => {
+    if (!n.length) { 
+      console.log('Nothing new!'); 
+      return 
+    }
+    fetchURLsDetail(n).then(urls_obj => save_entry_index(urls_obj))
+  })
   // .catch(n => {
   //   if (!n.length) { 
   //     console.log('Nothing new!'); 
