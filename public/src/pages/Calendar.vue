@@ -54,6 +54,9 @@ export default {
     }
   },
   beforeMount () {
+    this.$store.dispatch('FETCH_TEST')
+
+    
     this.$store.dispatch('FETCH_INDEX')
       .then(({ calendar, days, today }) => {
         C.generate(days).then(months => this.months = months)

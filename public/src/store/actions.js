@@ -1,7 +1,9 @@
 import {
   fetchIndex,
-  fetchDaily
+  fetchDaily,
+  fetchTest
 } from '../api'
+
 
 export default {
   // the index.json
@@ -40,5 +42,19 @@ export default {
         return data
       })
     }
+  },
+  FETCH_TEST ({ commit, dispatch, state }) {
+    return fetchTest().then(data => {
+
+      let calendar = data
+        , days = Object.keys(calendar)
+        , today = ([...days].pop()).split('.')[0]
+
+      commit('SET_CALENDAR', data)
+      commit('SET_TODAY', today)
+      commit('SET_DAYS', days)
+
+      return Promise.resolve({ calendar, days, today })
+    })
   }
 }

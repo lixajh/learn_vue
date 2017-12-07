@@ -7,3 +7,8 @@ export function fetchIndex () {
 export function fetchDaily (objectId) {
   return axios.get('/api/daily/' + objectId ).then(response => Promise.resolve(response.data))
 }
+
+export function fetchTest (objectId) {
+  return axios.get('http://localhost:8080/WebBase/demo/getList').then(response => console.log(response)).catch(e => console.error(e))
+  
+}
