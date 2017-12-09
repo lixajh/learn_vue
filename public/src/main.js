@@ -11,6 +11,7 @@ const store = createStore()
 const app = new Vue({
   store,
   router,
+  
   render: h => h(App)
 })
 

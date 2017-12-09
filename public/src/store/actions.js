@@ -45,8 +45,6 @@ export default {
   },
   FETCH_TEST ({ commit, dispatch, state }) {
     return fetchTest()
-    // .then(data => console.log("json:" + data))
-    // .then(data => JSON.parse(data))
     .then(data => {
       // JSON.parse(data)
       let days = data['date']

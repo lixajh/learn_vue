@@ -57,7 +57,6 @@ export default {
     this.$store.dispatch('FETCH_TEST').then(
       (({  days }) => {
         C.generate(days).then(months =>{ 
-          console.log(JSON.stringify(months))
           this.months = months})
       }
     ))
