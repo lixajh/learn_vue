@@ -44,17 +44,23 @@ export default {
     }
   },
   FETCH_TEST ({ commit, dispatch, state }) {
-    return fetchTest().then(data => {
+    return fetchTest()
+    // .then(data => console.log("json:" + data))
+    // .then(data => JSON.parse(data))
+    .then(data => {
+      // JSON.parse(data)
+      let days = data['date']
+      console.log("json:" + days)
+      
+      // let calendar = data
+      //   , days = Object.keys(calendar)
+      //   , today = ([...days].pop()).split('.')[0]
 
-      let calendar = data
-        , days = Object.keys(calendar)
-        , today = ([...days].pop()).split('.')[0]
-
-      commit('SET_CALENDAR', data)
-      commit('SET_TODAY', today)
+      // commit('SET_CALENDAR', data)
+      // commit('SET_TODAY', today)
       commit('SET_DAYS', days)
 
-      return Promise.resolve({ calendar, days, today })
+      return Promise.resolve({ days })
     })
   }
 }

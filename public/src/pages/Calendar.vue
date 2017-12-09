@@ -54,14 +54,21 @@ export default {
     }
   },
   beforeMount () {
-    this.$store.dispatch('FETCH_TEST')
+    this.$store.dispatch('FETCH_TEST').then(
+      (({  days }) => {
+        C.generate(days).then(months =>{ 
+          console.log(JSON.stringify(months))
+          this.months = months})
+      }
+    ))
 
     
-    this.$store.dispatch('FETCH_INDEX')
-      .then(({ calendar, days, today }) => {
-        C.generate(days).then(months => this.months = months)
-      })
-  },
+    // this.$store.dispatch('FETCH_INDEX')
+    //   .then(({ calendar, days, today }) => {
+    //     C.generate(days).then(months => this.months = months)
+    //   })
+  }
+  ,
 }
 </script>
 

@@ -9,6 +9,8 @@ export function fetchDaily (objectId) {
 }
 
 export function fetchTest (objectId) {
-  return axios.get('http://localhost:8080/WebBase/demo/getList').then(response => console.log(response)).catch(e => console.error(e))
+  return axios.get('http://localhost:8080/CabinetLock/demo/getList').then(response => {
+    return Promise.resolve(response.data)
+  }).catch(e => console.error("____error:" + e))
   
 }

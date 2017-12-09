@@ -1,5 +1,5 @@
 let t = new Date();
-let todayString = `${t.getFullYear()}-${t.getMonth() + 1 < 10 ? '0' + (t.getMonth() + 1) : t.getMonth() + 1}-${ t.getDate() < 10 ? '0' + t.getDate() : t.getDate() }.daily`;
+let todayString = `${t.getFullYear()}-${t.getMonth() + 1 < 10 ? '0' + (t.getMonth() + 1) : t.getMonth() + 1}-${ t.getDate() < 10 ? '0' + t.getDate() : t.getDate() }`;
 
 export default class Calendar {
   constructor() {
@@ -49,10 +49,10 @@ export default class Calendar {
         _year, '-',
         (_month + 1) >= 10 ? (_month + 1) : '0' + (_month + 1), '-',
         (i + 1) >= 10 ? (i + 1) : '0' + (i + 1),
-        '.daily'
+        
       ].join('')
 
-      if ( s === '2017-09-03.daily'){
+      if ( s === '2017-09-03'){
         console.log(todayString)
       }
 
