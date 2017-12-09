@@ -1,21 +1,19 @@
 <template>
-  <!-- <div>
+  <div>
      <div class="" v-if="isLoading">
       loading...
-    </div> -->
+    </div> 
     <!-- <div class="entry-date">{{date}}</div> -->
-<a-player autoplay :music="{
+<!-- <a-player autoplay :music="{
   title: 'Preparation',
   author: '锵锵三人行',
   url: 'http://198.46.248.122:8888/2009-01-13.mp3',
   pic: 'http://devtest.qiniudn.com/Preparation.jpg'
-}"></a-player>
+}"></a-player> -->
 
 </template>
 
 <script>
-import VueAplayer from 'vue-aplayer'
-let aplayer
 export default {
   name: 'List',
 
@@ -25,19 +23,19 @@ export default {
       statuses: []
     }
   },
-components: {
-    'a-player': VueAplayer
-},
+// components: {
+//     'a-player': VueAplayer
+// },
   watch: {
     '$route': 'fetchList'
   },
 
   mounted () {
     //this.calendar = this.$store.getters.calendar
-    if(applyer == undefined){
-      aplayer = this.$refs.player.control
-      aplayer.play()
-    }
+    // if(applyer == undefined){
+    //   aplayer = this.$refs.player.control
+    //   aplayer.play()
+    // }
     
   },
 

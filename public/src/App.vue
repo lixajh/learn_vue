@@ -2,6 +2,14 @@
   <div id="app">
     <header class="header">
       <h1>饭否每日精选·日历</h1>
+<div>
+      <a-player autoplay :music="{
+        title: 'Preparation',
+        author: '锵锵三人行',
+        url: 'http://198.46.248.122:8888/2009-01-13.mp3',
+        pic: 'http://devtest.qiniudn.com/Preparation.jpg'
+      }"></a-player>
+</div>
       <nav class="inner">
         <ul>
           <router-link to="/d/today" tag="li" :class="">今日精选</router-link>
@@ -18,6 +26,8 @@
 </template>
 
 <script>
+import VueAplayer from 'vue-aplayer'
+let aplayer
 
 export default {
   name: 'app',
@@ -30,7 +40,19 @@ export default {
 
   data () {
     return {}
+  },
+  components: {
+      'a-player': VueAplayer
+  },
+  mounted () {
+    //this.calendar = this.$store.getters.calendar
+    // if(aplayer == undefined){
+    //   aplayer = this.$refs.player.control
+     
+    // }
+    
   }
+
 }
 </script>
 
@@ -81,7 +103,7 @@ a {
 .header {
   z-index: 100;
   width: 100%;
-  height: 80px;
+  height: 156px;
   background: #46C1FD;
   color: #ffffff;
   position: fixed;
