@@ -2,14 +2,14 @@
   <div id="app">
     <header class="header">
       <h1>饭否每日精选·日历</h1>
-<div>
+
       <a-player autoplay :music="{
         title: 'Preparation',
         author: '锵锵三人行',
         url: 'http://198.46.248.122:8888/2009-01-13.mp3',
         pic: 'http://devtest.qiniudn.com/Preparation.jpg'
       }"></a-player>
-</div>
+
       <nav class="inner">
         <ul>
           <router-link to="/d/today" tag="li" :class="">今日精选</router-link>
@@ -66,7 +66,7 @@ export default {
 }
 html {
   font-size: 15px;
-  padding-top: 80px;
+  padding-top: 156px;
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; 
