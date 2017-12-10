@@ -18,7 +18,7 @@ export function createStore () {
           {
             title: '2015-01-01',
             author: '陶杰',      
-            url: 'http://198.46.248.122:8888/2015-01-01.mp3',
+            url: 'http://198.46.248.122:8888/2015-01-01.mp3', 
             pic: 'https://cn.vuejs.org/images/logo.png'
           } 
         ]
