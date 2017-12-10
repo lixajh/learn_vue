@@ -31,6 +31,38 @@ export default {
   },
 
   mounted () {
+    if(this.$route.params.day === '2017-12-09'){
+    let m_song1s = [
+      
+      {
+        title: '2017-12-09 嘉宾：马未都',
+        author: '锵锵三人行',      
+        url: 'http://198.46.248.122:8888/2009-01-13.mp3',
+        pic: 'http://devtest.qiniudn.com/Preparation.jpg'
+      }
+    
+    ]
+
+    this.$store.commit('SET_SONGS', m_song1s)
+    }else{
+      let m_song1s = [
+      
+      {
+        title: '2017-12-08 嘉宾：马未都',
+        author: '锵锵三人行',      
+        url: 'http://198.46.248.122:8888/2014-01-15.mp3',
+        pic: 'https://avatars0.githubusercontent.com/u/1683811?s=400&v=4'
+      }
+    
+    ]
+
+    this.$store.commit('SET_SONGS', m_song1s)
+    }
+     
+  
+  
+  console.log('aab'+this.$route.params.day)
+  this.$store.commit('SET_DATE', this.$route.params.day)
     //this.calendar = this.$store.getters.calendar
     // if(applyer == undefined){
     //   aplayer = this.$refs.player.control

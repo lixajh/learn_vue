@@ -54,8 +54,10 @@ export default {
     }
   },
   beforeMount () {
+    console.log("aaa")
     this.$store.dispatch('FETCH_TEST').then(
       (({  days }) => {
+        console.log(days)
         C.generate(days).then(months =>{ 
           this.months = months})
       }

@@ -15,5 +15,11 @@ export default {
 
   SET_DAILY (state, { day, data }) {
     state.dailys[day] = data
+  },
+  SET_SONGS(state, data){
+    state.songs = data
+  },
+  SET_DATE(state, date){
+    state.date = date
   }
 }

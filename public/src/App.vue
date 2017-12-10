@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <header class="header">
-      <h1>饭否每日精选·日历</h1>
+      <h1>锵锵三人行·日历</h1>
+      <template v-if="useOne">
+        <a-player ref="player1" :music="songs" key="csongdate"></a-player>
+      </template>
 
-      <a-player autoplay :music="{
-        title: 'Preparation',
-        author: '锵锵三人行',
-        url: 'http://198.46.248.122:8888/2009-01-13.mp3',
-        pic: 'http://devtest.qiniudn.com/Preparation.jpg'
-      }"></a-player>
+      <template v-else>
+        <a-player ref="player2" :music="songs" key="csongdate1"></a-player>
+      </template>
 
       <nav class="inner">
         <ul>
@@ -27,33 +27,123 @@
 
 <script>
 import VueAplayer from 'vue-aplayer'
-let aplayer
-
+let aplayer1
+let aplayer2
+let csongdate="2017-12-10"
+var data = { 'csongdate':csongdate,
+              'useone':false }
 export default {
   name: 'app',
 
   computed: {
     currentPage () {
       return this.$route.path
-    }
-  },
-
-  data () {
-    return {}
+    },
+    songs:function(){
+      // console.log(this.$store.state.songs)
+      return  this.$store.state.songs
+    },
+    songdate:function(){
+      return this.$store.state.date
+    },
+    csongdate:function(){
+      return data.csongdate
+    },
+    useOne:function(){
+      if(this.$store.state.date===data.csongdate){
+       return data.useone
+      }else{
+        data.useone = !data.useone
+        return data.useone 
+      }
+      
+    },
   },
   components: {
       'a-player': VueAplayer
   },
-  mounted () {
-    //this.calendar = this.$store.getters.calendar
-    // if(aplayer == undefined){
-    //   aplayer = this.$refs.player.control
-     
-    // }
+ 
+   beforeMount () {
+     this.$store.commit('SET_DATE', '2017-12-10')
+    //  console.log(this.$store.state.day)
+    //  console.log(this.$store.state.songs)
+    // let m_songs = [      
+    //     {
+    //       title: '锵锵三人行谈555古钱币 嘉宾：马未都',
+    //       author: '锵锵三人行',      
+    //       url: 'http://198.46.248.122:8888/2009-01-13.mp3',
+    //       pic: 'http://devtest.qiniudn.com/Preparation.jpg'
+    //     }  
+    //   ]
     
+    // this.$store.commit('SET_SONGS', m_songs)
+  },
+  watch:{
+    'songdate':function(after,before){
+      if(before === null){
+        return
+      }
+      console.log("before:" + before + "  after:" + after)
+        // aplayer.destroy()     
+
+        if(data.useone){
+    aplayer1 = this.$refs.player1.control
+  
+    }else{
+      aplayer2 = this.$refs.player2.control
+    
+    }
+
+     if(typeof(aplayer1) != "undefined"){
+      console.log("1pause")
+      aplayer1.pause()
+    }
+      if(typeof(aplayer2) != "undefined"){
+         console.log("2pause")
+      aplayer2.pause()
+    }
+    
+        
+    }}
+    ,
+  mounted () {
+    // console.log(this.$store.day)
+    //  console.log(this.$store.state.songs)
+    //this.calendar = this.$store.getters.calendar
+    csongdate = this.$store.state.date
+    if(data.useone){
+    aplayer1 = this.$refs.player1.control
+  
+    }else{
+      aplayer2 = this.$refs.player2.control
+    
+    }
+    if(typeof(aplayer1) != "undefined"){
+      console.log("1pause1")
+      aplayer1.pause()
+    }
+      if(typeof(aplayer2) != "undefined"){
+         console.log("2pause1")
+      aplayer2.pause()
+    }
+
+  //   let m_song1s = {
+  //   songs:[
+      
+  //     {
+  //       title: '锵锵3232 嘉宾：马未都',
+  //       author: '锵锵三人行',      
+  //       url: 'http://198.46.248.122:8888/2014-01-15.mp3',
+  //       pic: 'http://devtest.qiniudn.com/Preparation.jpg'
+  //     }
+    
+  //   ]
+  // }
+  // this.$store.commit('SET_SONGS', m_song1s)
   }
 
-}
+  }
+
 </script>
 
 <style lang="scss">
