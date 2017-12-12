@@ -1,79 +1,64 @@
 <template>
-  <div>
+  <!-- <div> -->
      <div class="" v-if="isLoading">
       loading...
     </div> 
+    <!-- <div class="entry-date">{{date}}</div> -->
+<!-- <a-player autoplay :music="{
+  title: 'Preparation',
+  author: '锵锵三人行',
+  url: 'http://198.46.248.122:8888/2009-01-13.mp3',
+  pic: 'http://devtest.qiniudn.com/Preparation.jpg'
+}"></a-player> -->
+
 </template>
 
 <script>
 export default {
   name: 'List',
+
   data () {
     return {
       isLoading: false,
       statuses: []
     }
   },
-  // watch: {
-  //   '$route': 'fetchList'
-  // },
-
-  mounted () {
-    // if(this.$route.params.day === '2017-12-09'){
-    // let m_song1s = [
-      
-    //   {
-    //     title: '2017-12-09 嘉宾：马未都',
-    //     author: '锵锵三人行',      
-    //     url: 'http://198.46.248.122:8888/2009-01-13.mp3',
-    //     pic: 'http://devtest.qiniudn.com/Preparation.jpg'
-    //   }
-    
-    // ]
-
-    // this.$store.commit('SET_SONGS', m_song1s)
-    // }else{
-    //   let m_song1s = [     
-    //     {
-    //       title: '2017-12-08 嘉宾：马未都',
-    //       author: '锵锵三人行',      
-    //       url: 'http://198.46.248.122:8888/2014-01-15.mp3',
-    //       pic: 'https://avatars0.githubusercontent.com/u/1683811?s=400&v=4'
-    //     }  
-    //   ]
-    //   this.$store.commit('SET_SONGS', m_song1s)
-    // } 
-  
-  // console.log('aab'+this.$route.params.day)
-  // this.$store.commit('SET_DATE', this.$route.params.day)   
+// components: {
+//     'a-player': VueAplayer
+// },
+  watch: {
+    '$route': 'fetchList'
   },
 
-  beforeMount () {
-  let day = this.$route.params.day  
-      console.log(day)
+  mounted () {
+    //this.calendar = this.$store.getters.calendar
+    // if(applyer == undefined){
+    //   aplayer = this.$refs.player.control
+    //   aplayer.play()
+    // }
+    
+  },
 
-     this.$store.dispatch('FETCH_CONTENT',{ date: day}).then(
-      content => {
-        console.log(content)
- console.log(content.data)
-  console.log(content.data.audio)
-         let m_song1s = [     
-        {
-          title: day,
-          author: '锵锵三人行',      
-          url: content.data.audio,
-          pic: 'https://avatars0.githubusercontent.com/u/1683811?s=400&v=4'
-        }  
-      ]
-      this.$store.commit('SET_SONGS', m_song1s)
-      this.$store.commit('SET_DATE', this.$route.params.day)   
-      }
-    )
+  // beforeRouteEnter (to, from, next) {
+  //   next($this => $this.fetchList())
+  // },
+
+  methods: {
+    fetchList () {
+      // let day = this.$route.params.day
+      //   , isToday = day === 'today' ? true : false
+
+      // console.log(day)
+
+      // this.$store.dispatch('FETCH_INDEX').then(({calendar, days, today}) => {
+      //   this.$store.dispatch('FETCH_DAILY', { day: isToday ? today : day }).then(data => {
+      //     this.statuses = data.msgs;
+      //     this.isLoading = false
+      //   })
+      // })
+    }
   }
-
-
 }
-
 </script>
 
 <style lang="scss">
