@@ -1,12 +1,5 @@
 <div align="center" markdown="1">
   <h1>锵锵三人行·日历 | qq12year</h1>
-  <div align="center">
-    <img src="medias/screenshots.png" width="80%">
-    <br/><br/><br/>
-    <a href="http://fanfou-daily.leanapp.cn/d/today">在线访问地址</a>
-   </div>
-</div>
-
 ___
 
 根据[饭否每日日历](https://github.com/movii/Vue-Fanfou-Daily)修改的项目，一个锵锵三人行资源站
