@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div class="calendar__contain">
       <div class="calendar__hd">
         <div>
@@ -29,35 +30,48 @@
         
         <div class="day" v-for="day in month.days">
           <div v-if="day.value == 'placeholder'" class="placeholder"></div>
-          <router-link v-if="day.value == 'value'" 
-                      :class = "day.isToday ? 'date today': 'date'"
-                        tag  = "div"
-                      :to    = "'/d/' + day.entry.split('.')[0]">
+          <div v-if="day.value == 'value'" 
+                      :class = "isToday(day.entry) ? 'date today': 'date'"
+                      @click="changeMusic(day.entry.split('.')[0])"
+                      >
             {{ day.content }}
-          </router-link>
+          </div>
 
           <div v-if="day.value == 'empty'" class="empty">{{ day.content }}</div>
         </div>
       </div>
+    </div>  
+    <div v-for="news in newsList" >
+      <h2>{{news }}</h2>
     </div>
+    <infinite-loading @infinite="infiniteHandler" spinner="spiral"></infinite-loading>
+ 
+</div>
+
 </template>
 
 <script>
 import Calendar from '../utils/calendar'
+import InfiniteLoading from 'vue-infinite-loading';
+
 const C = new Calendar()
 export default {
   name: 'Calendar',
   
   data () {
     return {
-      months: []
+      months: [],
+      newsList: []
     }
   },
+  computed: {
+   
+  },
   beforeMount () {
-    console.log("aaa")
+    this.$store.commit('SET_DATE', '2015-12-12')
     this.$store.dispatch('FETCH_TEST').then(
       (({  days }) => {
-        console.log(days)
+
         C.generate(days).then(months =>{ 
           this.months = months})
       }
@@ -65,6 +79,45 @@ export default {
 
   }
   ,
+  methods:{
+    changeMusic:function(clickDate){
+      
+      let day = clickDate
+      this.$store.dispatch('FETCH_CONTENT',{ date: day}).then(
+      content => {
+
+         let m_song1s = [     
+        {
+          title: day,
+          author: '锵锵三人行',      
+          url: content.data.audio,
+          pic: 'https://avatars0.githubusercontent.com/u/1683811?s=400&v=4'
+        }  
+      ]
+      this.$store.commit('SET_SONGS', m_song1s)
+      this.$store.commit('SET_DATE', day)   
+      }
+    )
+    },
+
+     isToday: function (date) {
+      return this.$store.state.date == date
+    },
+      infiniteHandler($state)  {
+    setTimeout(() => {
+         for (var a=0; a<5; a++) {
+          this.newsList.push(a)
+        }
+        console.log("afddfa:"+this.newsList.length)
+
+        $state.loaded();
+      }, 1000);
+       
+      }
+      
+      
+  },
+  components: {InfiniteLoading,}
 }
 </script>
 

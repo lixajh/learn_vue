@@ -16,7 +16,7 @@ export function createRouter () {
       { path: '/d/:day', name: 'list', component: Content },
       { path: '/calendar', name: 'calendar', component: Calendar },
       { path: '/contentmanage', name: 'contentmanage', component: ContentManage },
-      { path: '*', redirect: '/d/today' }
+      { path: '*', redirect: '/calendar' }
     ]
   })
 }

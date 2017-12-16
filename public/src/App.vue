@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div>
     <header class="header">
       <h1>锵锵三人行·日历</h1>
       <template v-if="useOne">
@@ -9,14 +10,8 @@
       <template v-else>
         <a-player ref="player2" :music="songs" key="csongdate1"></a-player>
       </template>
-
-      <nav class="inner">
-        <ul>
-          <router-link to="/d/today" tag="li" :class="">今日精选</router-link>
-          <router-link to="/calendar" tag="li">日历</router-link>
-        </ul>
-      </nav>
     </header>
+    </div>
     <main class="content">
       <transition name="fade" mode="out-in">
         <router-view ></router-view>
@@ -64,7 +59,7 @@ export default {
   },
  
    beforeMount () {
-     this.$store.commit('SET_DATE', '2017-12-10')
+    //  this.$store.commit('SET_DATE', '2017-12-12')
 
   },
   watch:{
