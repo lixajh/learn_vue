@@ -41,10 +41,15 @@
         </div>
       </div>
     </div>  
-    <div v-for="news in newsList" >
-      <h2>{{news }}</h2>
+    <div v-for="news in newsList" v-html="news" >
+      <div v-html="news"></div>
+      
     </div>
-    <infinite-loading @infinite="infiniteHandler" spinner="spiral"></infinite-loading>
+    <infinite-loading @infinite="infiniteHandler" spinner="spiral" ref="infiniteLoading">>
+       <span slot="no-more">
+      锵锵三人行，广告之后见
+    </span>
+    </infinite-loading>
  
 </div>
 
@@ -57,14 +62,14 @@ import InfiniteLoading from 'vue-infinite-loading';
 const C = new Calendar()
 let newsDate;
 
-let getNextNews=function (newsDate,store){
-      // d.setDate(d.getDate()+days); 
-        store.dispatch('FETCH_NEWS',{ date: newsDate}).then(
-        responseBean => {
-          console.log(responseBean)
+// let getNews=function (newsDate,store){
+//       // d.setDate(d.getDate()+days); 
+//         store.dispatch('FETCH_NEWS',{ date: newsDate}).then(
+//         responseBean => {
+//           console.log(responseBean.data.news1)
 
-        })
-    }
+//         })
+//     }
 
 
 export default {
@@ -109,24 +114,31 @@ export default {
       this.$store.commit('SET_SONGS', m_song1s)
       this.$store.commit('SET_DATE', day)   
 
-       newsDate = day;
-       getNextNews(newsDate,this.$store)
-
+      newsDate = day;
+      this.newsList = []
+      this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+      
       }
     )
     },
 
-     isToday: function (date) {
+    isToday: function (date) {
       return this.$store.state.date == date
     },
-      infiniteHandler($state)  {
+    infiniteHandler($state)  {
     setTimeout(() => {
-         for (var a=0; a<5; a++) {
-          this.newsList.push(a)
-        }
-        console.log("afddfa:"+this.newsList.length)
 
-        $state.loaded();
+          this.$store.dispatch('FETCH_NEWS',{ date: newsDate}).then(
+      responseBean => {
+          
+          if(typeof(responseBean.data.data)=="undefined" || responseBean.data.data == null){
+            $state.complete();
+            return;
+          }
+          this.newsList.push(responseBean.data.data.news1)
+
+          $state.loaded();
+      })          
       }, 1000);
        
     },
