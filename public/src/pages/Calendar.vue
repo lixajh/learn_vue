@@ -62,15 +62,6 @@ import InfiniteLoading from 'vue-infinite-loading';
 const C = new Calendar()
 let newsDate;
 
-// let getNews=function (newsDate,store){
-//       // d.setDate(d.getDate()+days); 
-//         store.dispatch('FETCH_NEWS',{ date: newsDate}).then(
-//         responseBean => {
-//           console.log(responseBean.data.news1)
-
-//         })
-//     }
-
 
 export default {
   name: 'Calendar',
@@ -85,14 +76,30 @@ export default {
    
   },
   beforeMount () {
-    this.$store.commit('SET_DATE', '2015-12-12')
-    this.$store.dispatch('FETCH_TEST').then(
-      (({  days }) => {
 
-        C.generate(days).then(months =>{ 
-          this.months = months})
+    this.$store.dispatch('FETCH_TODAY').then(
+      (({  data }) => {
+        
+        var aDateDate = new Date()
+        aDateDate.setTime(data.mDate);
+          var bDate =aDateDate.toISOString().slice(0,10);
+          console.log("vv"+bDate)
+         this.$store.commit('SET_DATE', bDate)
+        newsDate = bDate;
+        this.newsList = []
+      this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+          this.$store.dispatch('FETCH_TEST').then(
+          (({  days }) => {
+
+            C.generate(days).then(months =>{ 
+              this.months = months})
+          }
+        ))
+
       }
     ))
+
+   
 
   }
   ,
@@ -126,7 +133,7 @@ export default {
       return this.$store.state.date == date
     },
     infiniteHandler($state)  {
-    setTimeout(() => {
+    
 
           this.$store.dispatch('FETCH_NEWS',{ date: newsDate}).then(
       responseBean => {
@@ -135,11 +142,17 @@ export default {
             $state.complete();
             return;
           }
+          var dateDate = new Date(newsDate)
           this.newsList.push(responseBean.data.data.news1)
-
+         dateDate = dateDate.setDate(dateDate.getDate()+1)
+         console.log(dateDate)
+        var newDateDate = new Date()
+        newDateDate.setTime(dateDate * 1000);
+          newsDate =newDateDate.toISOString().slice(0,10);
           $state.loaded();
+          
       })          
-      }, 1000);
+     
        
     },
     
