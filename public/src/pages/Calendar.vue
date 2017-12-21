@@ -55,6 +55,18 @@ import Calendar from '../utils/calendar'
 import InfiniteLoading from 'vue-infinite-loading';
 
 const C = new Calendar()
+let newsDate;
+
+let getNextNews=function (newsDate,store){
+      // d.setDate(d.getDate()+days); 
+        store.dispatch('FETCH_NEWS',{ date: newsDate}).then(
+        responseBean => {
+          console.log(responseBean)
+
+        })
+    }
+
+
 export default {
   name: 'Calendar',
   
@@ -96,6 +108,10 @@ export default {
       ]
       this.$store.commit('SET_SONGS', m_song1s)
       this.$store.commit('SET_DATE', day)   
+
+       newsDate = day;
+       getNextNews(newsDate,this.$store)
+
       }
     )
     },
@@ -113,7 +129,8 @@ export default {
         $state.loaded();
       }, 1000);
        
-      }
+    },
+    
       
       
   },

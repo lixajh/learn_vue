@@ -2,7 +2,8 @@ import {
   fetchIndex,
   fetchDaily,
   fetchTest,
-  fetchContent
+  fetchContent,
+  fetchNews
 } from '../api'
 
 
@@ -59,6 +60,17 @@ export default {
   FETCH_CONTENT ({ commit, dispatch, state }, { date: day }) {
     console.log("df"+day)
     return fetchContent(day)
+    .then(data => {
+     
+      // commit('SET_DAYS', data)
+
+      return Promise.resolve({ data })
+    })
+  },
+
+  FETCH_NEWS ({ commit, dispatch, state }, { date: day }) {
+    console.log("df"+day)
+    return fetchNews(day)
     .then(data => {
      
       // commit('SET_DAYS', data)

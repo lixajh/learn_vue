@@ -11,7 +11,7 @@ app.use(router)
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
 // create Cornttab
-createCorntab()
+// createCorntab()
 
 // always send back index.html 
 app.get('/', (req, res) => res.status(200).sendFile(path.resolve(__dirname, 'public/index.html')));
