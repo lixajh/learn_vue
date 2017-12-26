@@ -41,8 +41,9 @@
         </div>
       </div>
     </div>  
-    <div v-for="news in newsList" v-html="news" >
-      <div v-html="news"></div>
+    <div v-for="data in newsList">
+      <div>{{data.m_date}}</div>
+      <div v-html="data.news1"></div>
       
     </div>
     <infinite-loading @infinite="infiniteHandler" spinner="spiral" ref="infiniteLoading">>
@@ -60,7 +61,7 @@ import Calendar from '../utils/calendar'
 import InfiniteLoading from 'vue-infinite-loading';
 
 const C = new Calendar()
-let newsDate;
+let newsDate1;
 
 
 export default {
@@ -78,14 +79,16 @@ export default {
   beforeMount () {
 
     this.$store.dispatch('FETCH_TODAY').then(
-      (({  data }) => {
+      ((data) => {
         
-        var aDateDate = new Date()
-        aDateDate.setTime(data.mDate);
+        var aDateDate = new Date(data.mDate)
+        // aDateDate.setTime();
+        console.log(aDateDate.toISOString())
           var bDate =aDateDate.toISOString().slice(0,10);
           console.log("vv"+bDate)
          this.$store.commit('SET_DATE', bDate)
-        newsDate = bDate;
+        newsDate1 = bDate;
+       
         this.newsList = []
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
           this.$store.dispatch('FETCH_TEST').then(
@@ -95,12 +98,8 @@ export default {
               this.months = months})
           }
         ))
-
       }
-    ))
-
-   
-
+    ))  
   }
   ,
   methods:{
@@ -121,7 +120,8 @@ export default {
       this.$store.commit('SET_SONGS', m_song1s)
       this.$store.commit('SET_DATE', day)   
 
-      newsDate = day;
+      newsDate1 = day;
+      console.log("127"+newsDate1)
       this.newsList = []
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
       
@@ -134,21 +134,23 @@ export default {
     },
     infiniteHandler($state)  {
     
-
-          this.$store.dispatch('FETCH_NEWS',{ date: newsDate}).then(
+      if(typeof newsDate1 == "undefined"){
+            $state.complete();
+            return;
+      }
+          this.$store.dispatch('FETCH_NEWS',{ date: newsDate1}).then(
       responseBean => {
           
           if(typeof(responseBean.data.data)=="undefined" || responseBean.data.data == null){
             $state.complete();
             return;
           }
-          var dateDate = new Date(newsDate)
-          this.newsList.push(responseBean.data.data.news1)
+          var dateDate = new Date(newsDate1)
+          this.newsList.push(responseBean.data.data)
          dateDate = dateDate.setDate(dateDate.getDate()+1)
-         console.log(dateDate)
         var newDateDate = new Date()
-        newDateDate.setTime(dateDate * 1000);
-          newsDate =newDateDate.toISOString().slice(0,10);
+        newDateDate.setTime(dateDate);
+          newsDate1 =newDateDate.toISOString().slice(0,10);    
           $state.loaded();
           
       })          

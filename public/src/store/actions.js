@@ -87,7 +87,7 @@ export default {
      
       // commit('SET_DAYS', data)
 
-      return Promise.resolve( data)
+      return Promise.resolve( data.data )
     })
   }
 }
