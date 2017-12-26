@@ -41,8 +41,8 @@
         </div>
       </div>
     </div>  
-    <div v-for="data in newsList">
-      <div>{{data.m_date}}</div>
+    <div v-for="data in newsList" style="padding:10px; margin 10px; border-style: solid; border-width: 2px;">
+      <div style="text-align:center;">---  {{dateToStr(data.mDate)}}  ---</div>
       <div v-html="data.news1"></div>
       
     </div>
@@ -59,9 +59,9 @@
 <script>
 import Calendar from '../utils/calendar'
 import InfiniteLoading from 'vue-infinite-loading';
-
+import dateutils from 'vue-dateutils'
 const C = new Calendar()
-let newsDate1;
+let newsDate;
 
 
 export default {
@@ -81,13 +81,9 @@ export default {
     this.$store.dispatch('FETCH_TODAY').then(
       ((data) => {
         
-        var aDateDate = new Date(data.mDate)
-        // aDateDate.setTime();
-        console.log(aDateDate.toISOString())
-          var bDate =aDateDate.toISOString().slice(0,10);
-          console.log("vv"+bDate)
+        var bDate = dateutils.dateToStr("YYYY-MM-DD",new Date(data.mDate))
          this.$store.commit('SET_DATE', bDate)
-        newsDate1 = bDate;
+        newsDate = bDate;
        
         this.newsList = []
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
@@ -103,6 +99,9 @@ export default {
   }
   ,
   methods:{
+    dateToStr:function(timeLong){
+      return dateutils.dateToStr("YYYY-MM-DD",new Date(timeLong))
+    },
     changeMusic:function(clickDate){
       
       let day = clickDate
@@ -120,8 +119,7 @@ export default {
       this.$store.commit('SET_SONGS', m_song1s)
       this.$store.commit('SET_DATE', day)   
 
-      newsDate1 = day;
-      console.log("127"+newsDate1)
+      newsDate = day;
       this.newsList = []
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
       
@@ -134,23 +132,19 @@ export default {
     },
     infiniteHandler($state)  {
     
-      if(typeof newsDate1 == "undefined"){
+      if(typeof newsDate == "undefined"){
             $state.complete();
             return;
       }
-          this.$store.dispatch('FETCH_NEWS',{ date: newsDate1}).then(
+          this.$store.dispatch('FETCH_NEWS',{ date: newsDate}).then(
       responseBean => {
           
           if(typeof(responseBean.data.data)=="undefined" || responseBean.data.data == null){
             $state.complete();
             return;
           }
-          var dateDate = new Date(newsDate1)
-          this.newsList.push(responseBean.data.data)
-         dateDate = dateDate.setDate(dateDate.getDate()+1)
-        var newDateDate = new Date()
-        newDateDate.setTime(dateDate);
-          newsDate1 =newDateDate.toISOString().slice(0,10);    
+          this.newsList.push(responseBean.data.data) 
+          newsDate = dateutils.dateToStr("YYYY-MM-DD",dateutils.dateAdd('d', 1, new Date(newsDate)))
           $state.loaded();
           
       })          
