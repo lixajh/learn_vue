@@ -43,7 +43,10 @@
     </div>  
     <div v-for="data in newsList" class="card" style="padding:10px; margin 10px;">
       <div style="text-align:center;">---  {{dateToStr(data.mDate)}}  ---</div>
+      <div>维基新闻：</div>
       <div v-html="data.news1"></div>
+      <div>百度新闻：</div>
+      <div v-html="data.news2"></div>
       
     </div>
     <infinite-loading @infinite="infiniteHandler" spinner="spiral" ref="infiniteLoading">>
@@ -113,7 +116,7 @@ export default {
           title: day,
           author: '锵锵三人行',      
           url: content.data.audio,
-          pic: 'https://avatars0.githubusercontent.com/u/1683811?s=400&v=4'
+          pic: 'https://tva4.sinaimg.cn/crop.0.0.180.180.180/645ed684jw1e8qgp5bmzyj2050050aa8.jpg'
         }  
       ]
       this.$store.commit('SET_SONGS', m_song1s)
@@ -185,7 +188,6 @@ export default {
   @include align-self(center);
   background : #F8F8F8;
   color      : #96999B;
-  position   : fixed;
   height     : 20px;
   overflow   : hidden;
   line-height: 20px;
@@ -226,7 +228,7 @@ export default {
   z-index : 0;
 }
 .calendar__bd:nth-child(2) {
-  margin-top: 22px;
+
 }
 .calendar__title {
   width: 100%;
