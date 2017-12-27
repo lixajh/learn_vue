@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>  
-    <div v-for="data in newsList" style="padding:10px; margin 10px; border-style: solid; border-width: 2px;">
+    <div v-for="data in newsList" class="card" style="padding:10px; margin 10px;">
       <div style="text-align:center;">---  {{dateToStr(data.mDate)}}  ---</div>
       <div v-html="data.news1"></div>
       
@@ -168,10 +168,16 @@ export default {
     margin   : 0 auto;
   }
 }
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+}
 .calendar__contain {
   position     : relative;
   overflow     : hidden;
   margin-bottom: 1.325rem;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 .calendar__hd {
   @include flexbox();
