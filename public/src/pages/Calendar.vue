@@ -25,10 +25,10 @@
         </div>
       </div>
 
-      <div class="calendar__bd" v-for="month in months">
+      <div class="calendar__bd" v-for="month in months" :key="month.year+month.month" >
         <div class="calendar__title">{{month.year}} 年 {{month.month}} 月</div>
         
-        <div class="day" v-for="day in month.days">
+        <div class="day" v-for="day in month.days" :key="day.entry">
           <div v-if="day.value == 'placeholder'" class="placeholder"></div>
           <div v-if="day.value == 'value'" 
                       :class = "isToday(day.entry) ? 'date today': 'date'"
@@ -41,11 +41,11 @@
         </div>
       </div>
     </div>  
-    <div v-for="data in newsList" class="card" style="padding:10px; margin 10px;">
+    <div v-for="data in newsList" class="card" style="padding:10px; margin 10px;" :key="data.mDate">
       <div style="text-align:center;">---  {{dateToStr(data.mDate)}}  ---</div>
-      <div>维基新闻：</div>
+      <div v-if="data.news2">维基新闻：</div>
       <div v-html="data.news1"></div>
-      <div>百度新闻：</div>
+      <div v-if="data.news2">百度新闻：</div>
       <div v-html="data.news2"></div>
       
     </div>
