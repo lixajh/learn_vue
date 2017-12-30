@@ -175,12 +175,20 @@ export default {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     border-radius: 5px;
+    margin:20px;
+    margin-top:25px;
+    background-color: white;
 }
 .calendar__contain {
   position     : relative;
   overflow     : hidden;
-  margin-bottom: 1.325rem;
+  margin:20px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  background-color: white;
+  border-radius: 5px;
+  padding: 2px;
+  padding-top: 3px;
+  padding-bottom: 5px;
 }
 .calendar__hd {
   @include flexbox();
@@ -194,6 +202,7 @@ export default {
   width      : 100%;
   z-index    : 100;
   max-width  : 600px;
+  margin-bottom: 2px;
 }
 .calendar__hd div {
   @include flex(1);

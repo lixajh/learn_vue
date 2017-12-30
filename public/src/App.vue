@@ -130,12 +130,10 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1rem;
 }
 ul {
-  list-style-type: none;
-  padding: 0;
+  padding: 10px;
 }
 li {
-  display: inline-block;
-  margin: 0 10px;
+  margin: 10px 10px;
 }
 a {
   color: #42b983;
@@ -203,6 +201,13 @@ nav.inner > ul > li.current {
 }
 .content {
   overflow: hidden;
+  background-size:100%;
+  background: url("/static/assets/1.png") no-repeat;
+  // height:100%;
+  // width:100%;
+  background-size:cover;
+  
+  background-attachment: fixed;
 }
 .fade-enter-active, .fade-leave-active {
   transition: all .15s ease;

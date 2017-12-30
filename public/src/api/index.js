@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Qs from 'qs'
-var server_url="http://192.168.1.108:8004/"
+var server_url="http://qqsrx.site:8004/"
 export function fetchIndex () {
   return axios.get('/api/index').then(response => Promise.resolve(response.data))
 }
