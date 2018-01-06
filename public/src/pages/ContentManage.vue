@@ -58,7 +58,7 @@ export default {
     // } 
   
   // console.log('aab'+this.$route.params.day)
-  // this.$store.commit('SET_DATE', this.$route.params.day)   
+  // this.$store.commit('SET_RADIO_DATE', this.$route.params.day)   
   },
 
 //   beforeMount () {
@@ -79,7 +79,7 @@ export default {
 //         }  
 //       ]
 //       this.$store.commit('SET_SONGS', m_song1s)
-//       this.$store.commit('SET_DATE', this.$route.params.day)   
+//       this.$store.commit('SET_RADIO_DATE', this.$route.params.day)   
 //       }
 //     )
 //   }

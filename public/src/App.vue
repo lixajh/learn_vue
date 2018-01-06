@@ -24,28 +24,27 @@
 import VueAplayer from 'vue-aplayer'
 let aplayer1
 let aplayer2
-let csongdate="2017-12-10"
-var data = { 'csongdate':csongdate,
-              'useone':false }
+
+var data = { 'csongdate':"",
+              'useone':false,
+           }
 export default {
   name: 'app',
-
   computed: {
     currentPage () {
       return this.$route.path
     },
     songs:function(){
-      // console.log(this.$store.state.songs)
       return  this.$store.state.songs
     },
     songdate:function(){
-      return this.$store.state.date
+      return this.$store.state.radioDate
     },
     csongdate:function(){
       return data.csongdate
     },
     useOne:function(){
-      if(this.$store.state.date===data.csongdate){
+      if(this.$store.state.radioDate===data.csongdate){
        return data.useone
       }else{
         data.useone = !data.useone
@@ -59,38 +58,31 @@ export default {
   },
  
    beforeMount () {
-    //  this.$store.commit('SET_DATE', '2017-12-12')
+    //  this.$store.commit('SET_RADIO_DATE', '2017-12-12')
 
   },
   watch:{
-    'songdate':function(after,before){
+    songdate:function(after,before){
       if(before === null){
         return
       }
-      console.log("before:" + before + "  after:" + after)
-        // aplayer.destroy()     
+      if(data.useone){
+        aplayer1 = this.$refs.player1.control 
+      }else{
+        aplayer2 = this.$refs.player2.control    
+      }
 
-        if(data.useone){
-    aplayer1 = this.$refs.player1.control
-  
-    }else{
-      aplayer2 = this.$refs.player2.control
-    
-    }
-
-     if(typeof(aplayer1) != "undefined"){ 
-      aplayer1.pause()
-    }
-      if(typeof(aplayer2) != "undefined"){
-      aplayer2.pause()
-    }
-    
-        
+      if(typeof(aplayer1) != "undefined"){ 
+        aplayer1.pause()
+      }
+        if(typeof(aplayer2) != "undefined"){
+        aplayer2.pause()
+      }            
     }}
     ,
   mounted () {
 
-    csongdate = this.$store.state.date
+    data.csongdate = this.$store.state.radioDate
     if(data.useone){
     aplayer1 = this.$refs.player1.control
   
@@ -120,7 +112,7 @@ export default {
 }
 html {
   font-size: 15px;
-  padding-top: 156px;
+  padding-top: 130px;
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; 
@@ -155,7 +147,7 @@ a {
 .header {
   z-index: 100;
   width: 100%;
-  height: 156px;
+  height: 130px;
   background: #46C1FD;
   color: #ffffff;
   position: fixed;

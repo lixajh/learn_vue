@@ -4,7 +4,8 @@ import {
   fetchTest,
   fetchContent,
   fetchNews,
-  fetchToday
+  fetchToday,
+  fetchNewMonth
 } from '../api'
 
 
@@ -51,19 +52,29 @@ export default {
     .then(data => {
      
       let days = data['date']
-      console.log("json:" + days)
       commit('SET_DAYS', days)
 
       return Promise.resolve({ days })
     })
   },
 
+  FETCH_NEW_MONTH ({ commit, dispatch, state }, { date:date,addMonth: addMonth }) {
+    return fetchNewMonth(date,addMonth)
+    .then(data => {
+     
+      let days = data['date']
+      
+      commit('SET_DAYS', days)
+
+      return Promise.resolve({ days })
+    })
+  },
+
+
   FETCH_CONTENT ({ commit, dispatch, state }, { date: day }) {
     
     return fetchContent(day)
     .then(data => {
-     
-      // commit('SET_DAYS', data)
 
       return Promise.resolve({ data })
     })
@@ -73,8 +84,6 @@ export default {
     
     return fetchNews(day)
     .then(data => {
-     
-      // commit('SET_DAYS', data)
 
       return Promise.resolve({ data })
     })
@@ -84,8 +93,6 @@ export default {
     
     return fetchToday()
     .then(data => {
-     
-      // commit('SET_DAYS', data)
 
       return Promise.resolve( data.data )
     })

@@ -13,7 +13,7 @@ export function createStore () {
       today   : null,
       dailys  : {/* [id: number]: Item */},
       calendar: null,   
-      date:'2017-12-10',                      /* {} */
+      radioDate:'2017-12-10',                      /* {} */
       songs:[      
           {
             title: '2015-01-01',

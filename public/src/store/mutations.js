@@ -19,7 +19,7 @@ export default {
   SET_SONGS(state, data){
     state.songs = data
   },
-  SET_DATE(state, date){
-    state.date = date
+  SET_RADIO_DATE(state, date){
+    state.radioDate = date
   }
 }

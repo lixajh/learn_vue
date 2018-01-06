@@ -1,7 +1,16 @@
 <template>
   <div>
     <div class="calendar__contain">
-      <div class="calendar__hd">
+      
+
+      <div class="calendar__bd" v-for="month in months" :key="month.year+month.month" >
+        <div class="calendar__title">
+          <span @click="lastMonth()" style="padding-right:10px;padding-left:10px;">&lt;</span>
+            {{month.year}} 年 {{month.month}} 月
+          <span @click="nextMonth()" style="padding-right:10px;padding-left:10px;">&gt;</span>
+        </div>
+        
+        <div class="calendar__hd">
         <div>
           <span>周一</span>
         </div>
@@ -25,9 +34,6 @@
         </div>
       </div>
 
-      <div class="calendar__bd" v-for="month in months" :key="month.year+month.month" >
-        <div class="calendar__title">{{month.year}} 年 {{month.month}} 月</div>
-        
         <div class="day" v-for="day in month.days" :key="day.entry">
           <div v-if="day.value == 'placeholder'" class="placeholder"></div>
           <div v-if="day.value == 'value'" 
@@ -43,7 +49,7 @@
     </div>  
     <div v-for="data in newsList" class="card" style="padding:10px; margin 10px;" :key="data.mDate">
       <div style="text-align:center;">---  {{dateToStr(data.mDate)}}  ---</div>
-      <div v-if="data.news2">维基新闻：</div>
+      <div v-if="data.news1">维基新闻：</div>
       <div v-html="data.news1"></div>
       <div v-if="data.news2">百度新闻：</div>
       <div v-html="data.news2"></div>
@@ -65,6 +71,7 @@ import InfiniteLoading from 'vue-infinite-loading';
 import dateutils from 'vue-dateutils'
 const C = new Calendar()
 let newsDate;
+let currentMonth;
 
 
 export default {
@@ -73,7 +80,9 @@ export default {
   data () {
     return {
       months: [],
-      newsList: []
+      newsList: [],
+      radioDate:null,
+      
     }
   },
   computed: {
@@ -85,16 +94,17 @@ export default {
       ((data) => {
         
         var bDate = dateutils.dateToStr("YYYY-MM-DD",new Date(data.mDate))
-         this.$store.commit('SET_DATE', bDate)
+         this.$store.commit('SET_RADIO_DATE', bDate)
         newsDate = bDate;
        
         this.newsList = []
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
-          this.$store.dispatch('FETCH_TEST').then(
+          this.$store.dispatch('FETCH_NEW_MONTH',{ date:newsDate,addMonth: 0}).then(
           (({  days }) => {
-
+            
             C.generate(days).then(months =>{ 
-              this.months = months})
+              this.months = months})   
+            currentMonth = days[0]      
           }
         ))
       }
@@ -106,23 +116,22 @@ export default {
       return dateutils.dateToStr("YYYY-MM-DD",new Date(timeLong))
     },
     changeMusic:function(clickDate){
-      
-      let day = clickDate
-      this.$store.dispatch('FETCH_CONTENT',{ date: day}).then(
+
+      this.$store.dispatch('FETCH_CONTENT',{ date: clickDate}).then(
       content => {
 
          let m_song1s = [     
         {
-          title: day,
+          title: clickDate,
           author: '锵锵三人行',      
           url: content.data.audio,
           pic: 'https://tva4.sinaimg.cn/crop.0.0.180.180.180/645ed684jw1e8qgp5bmzyj2050050aa8.jpg'
         }  
       ]
       this.$store.commit('SET_SONGS', m_song1s)
-      this.$store.commit('SET_DATE', day)   
+      this.$store.commit('SET_RADIO_DATE', clickDate)   
 
-      newsDate = day;
+      newsDate = clickDate;
       this.newsList = []
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
       
@@ -131,30 +140,54 @@ export default {
     },
 
     isToday: function (date) {
-      return this.$store.state.date == date
+      return this.$store.state.radioDate == date
     },
+
     infiniteHandler($state)  {
     
       if(typeof newsDate == "undefined"){
             $state.complete();
             return;
       }
-          this.$store.dispatch('FETCH_NEWS',{ date: newsDate}).then(
-      responseBean => {
-          
+      this.$store.dispatch('FETCH_NEWS',{ date: newsDate}).then(
+        responseBean => {
+        
           if(typeof(responseBean.data.data)=="undefined" || responseBean.data.data == null){
             $state.complete();
             return;
           }
-          this.newsList.push(responseBean.data.data) 
-          newsDate = dateutils.dateToStr("YYYY-MM-DD",dateutils.dateAdd('d', 1, new Date(newsDate)))
+
+          this.newsList.push(responseBean.data.data)
+          newsDate = dateutils.dateToStr("YYYY-MM-DD",new Date(responseBean.data.data.mDate))
+          newsDate = dateutils.dateToStr("YYYY-MM-DD",dateutils.dateAdd('d', -1, new Date(newsDate)))
           $state.loaded();
           
       })          
      
        
     },
-    
+    lastMonth:function(){
+
+          this.$store.dispatch('FETCH_NEW_MONTH',{ date:currentMonth,addMonth: -1}).then(
+          (({  days }) => {
+            if(days.length >0){
+              currentMonth = days[0]    
+              C.generate(days).then(months =>{ 
+              this.months = months})
+             
+            }         
+          }
+        ))
+    },
+    nextMonth:function(){
+      this.$store.dispatch('FETCH_NEW_MONTH',{ date:currentMonth,addMonth: 1}).then(
+          (({  days }) => {
+            currentMonth = days[0]    
+            C.generate(days).then(months =>{ 
+              this.months = months})
+          }
+        ))
+    }
       
       
   },
@@ -218,7 +251,7 @@ export default {
 .calendar__title {
   width        : 100%;
   display      : inline-block;
-  text-align   : left;
+  text-align   : center;
   font-size    : .7rem;
   height       : 30px;
   line-height  : 30px;
