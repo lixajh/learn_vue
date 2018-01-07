@@ -1,5 +1,6 @@
 <template>
   <div>
+    <template v-if="months">
     <div class="calendar__contain">
       
 
@@ -47,6 +48,7 @@
         </div>
       </div>
     </div>  
+    </template>
     <div v-for="data in newsList" class="card" style="padding:10px; margin 10px;" :key="data.mDate">
       <div style="text-align:center;">---  {{dateToStr(data.mDate)}}  ---</div>
       <div v-if="data.news1">维基新闻：</div>
@@ -55,12 +57,13 @@
       <div v-html="data.news2"></div>
       
     </div>
+    <template v-if="newsList">
     <infinite-loading @infinite="infiniteHandler" spinner="spiral" ref="infiniteLoading">>
        <span slot="no-more">
       锵锵三人行，广告之后见
     </span>
     </infinite-loading>
- 
+ </template>
 </div>
 
 </template>
@@ -79,8 +82,8 @@ export default {
   
   data () {
     return {
-      months: [],
-      newsList: [],
+      months: null,
+      newsList: null,
       radioDate:null,
       
     }
@@ -95,18 +98,9 @@ export default {
         
         var bDate = dateutils.dateToStr("YYYY-MM-DD",new Date(data.mDate))
         this.$store.commit('SET_RADIO_DATE', bDate)
-        // this.$store.commit('SET_SONGS', [      
-        //   {
-        //     title: ' ',
-        //     author: ' ',      
-        //     url: 'http://qqsrx.site:8888/2006-03-01.mp3', 
-        //     pic: 'https://tva4.sinaimg.cn/crop.0.0.180.180.180/645ed684jw1e8qgp5bmzyj2050050aa8.jpg'
-        //   } 
-        // ])
         newsDate = bDate;
        
         this.newsList = []
-        this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
         //获取本月日历列表
         this.$store.dispatch('FETCH_NEW_MONTH',{ date:newsDate,addMonth: 0}).then(
           (({  days }) => {
@@ -117,9 +111,6 @@ export default {
           }
         ))
         //重设radio信息
-
-        
-
         this.changeMusic(bDate)
       }
     ))  

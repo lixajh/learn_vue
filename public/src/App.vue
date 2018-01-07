@@ -186,15 +186,26 @@ nav.inner > ul > li.current {
   border-top-right-radius: 10px;
   border-bottom: none;
 }
-.content {
-  overflow: hidden;
-  background-size:100%;
-  background: url("/static/assets/1.png") no-repeat;
+body:before {
+
+  content: ' ';
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url("/static/assets/1.png") center 0 no-repeat;
+  background-size: cover;
+
+  // overflow: hidden;
+  // background-size:100%;
+  // background: url() no-repeat;
   // height:100%;
   // width:100%;
-  background-size:cover;
+  // background-size:cover;
   
-  background-attachment: fixed;
+  // background-attachment: fixed;
 }
 .fade-enter-active, .fade-leave-active {
   transition: all .15s ease;
