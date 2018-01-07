@@ -94,12 +94,21 @@ export default {
       ((data) => {
         
         var bDate = dateutils.dateToStr("YYYY-MM-DD",new Date(data.mDate))
-         this.$store.commit('SET_RADIO_DATE', bDate)
+        this.$store.commit('SET_RADIO_DATE', bDate)
+        // this.$store.commit('SET_SONGS', [      
+        //   {
+        //     title: ' ',
+        //     author: ' ',      
+        //     url: 'http://qqsrx.site:8888/2006-03-01.mp3', 
+        //     pic: 'https://tva4.sinaimg.cn/crop.0.0.180.180.180/645ed684jw1e8qgp5bmzyj2050050aa8.jpg'
+        //   } 
+        // ])
         newsDate = bDate;
        
         this.newsList = []
-      this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
-          this.$store.dispatch('FETCH_NEW_MONTH',{ date:newsDate,addMonth: 0}).then(
+        this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+        //获取本月日历列表
+        this.$store.dispatch('FETCH_NEW_MONTH',{ date:newsDate,addMonth: 0}).then(
           (({  days }) => {
             
             C.generate(days).then(months =>{ 
@@ -107,6 +116,11 @@ export default {
             currentMonth = days[0]      
           }
         ))
+        //重设radio信息
+
+        
+
+        this.changeMusic(bDate)
       }
     ))  
   }

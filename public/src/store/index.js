@@ -13,15 +13,8 @@ export function createStore () {
       today   : null,
       dailys  : {/* [id: number]: Item */},
       calendar: null,   
-      radioDate:'2017-12-10',                      /* {} */
-      songs:[      
-          {
-            title: '2015-01-01',
-            author: '陶杰',      
-            url: 'http://198.46.248.122:8888/2015-01-01.mp3', 
-            pic: 'https://tva4.sinaimg.cn/crop.0.0.180.180.180/645ed684jw1e8qgp5bmzyj2050050aa8.jpg'
-          } 
-        ]
+      radioDate:null, 
+      songs:null
       
       
     },

@@ -3,12 +3,14 @@
     <div>
     <header class="header">
       <h1>锵锵三人行·日历</h1>
-      <template v-if="useOne">
-        <a-player ref="player1" :music="songs" key="csongdate"></a-player>
-      </template>
+      <template v-if="songs">
+        <template v-if="useOne">
+          <a-player ref="player1" :music="songs" key="csongdate2"></a-player>
+        </template>
 
-      <template v-else>
-        <a-player ref="player2" :music="songs" key="csongdate1"></a-player>
+        <template v-else>       
+          <a-player ref="player2" :music="songs" key="csongdate1"></a-player>
+        </template>
       </template>
     </header>
     </div>
@@ -35,12 +37,15 @@ export default {
       return this.$route.path
     },
     songs:function(){
+    
       return  this.$store.state.songs
     },
     songdate:function(){
+ 
       return this.$store.state.radioDate
     },
     csongdate:function(){
+      
       return data.csongdate
     },
     useOne:function(){
@@ -62,14 +67,20 @@ export default {
 
   },
   watch:{
-    songdate:function(after,before){
+    songs:function(after,before){
+      data.csongdate = this.$store.state.radioDate
+  //   if(data.useone){
       if(before === null){
         return
       }
-      if(data.useone){
+      
+      if(data.useone && (typeof(this.$refs.player1) != "undefined")){
+
         aplayer1 = this.$refs.player1.control 
-      }else{
+
+      }else if(typeof(this.$refs.player2) != "undefined"){
         aplayer2 = this.$refs.player2.control    
+
       }
 
       if(typeof(aplayer1) != "undefined"){ 
@@ -80,23 +91,7 @@ export default {
       }            
     }}
     ,
-  mounted () {
 
-    data.csongdate = this.$store.state.radioDate
-    if(data.useone){
-    aplayer1 = this.$refs.player1.control
-  
-    }else{
-      aplayer2 = this.$refs.player2.control
-    
-    }
-    if(typeof(aplayer1) != "undefined"){
-      aplayer1.pause()
-    }
-      if(typeof(aplayer2) != "undefined"){
-      aplayer2.pause()
-    }
-  }
 
   }
 
