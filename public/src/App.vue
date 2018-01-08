@@ -4,11 +4,11 @@
     <header class="header">
       <h1>锵锵三人行·日历</h1>
       <template v-if="songs">
-        <template v-if="useOne">
+        <template v-if="useOne">1
           <a-player ref="player1" :music="songs" key="csongdate2"></a-player>
         </template>
 
-        <template v-else>       
+        <template v-else>      2 
           <a-player ref="player2" :music="songs" key="csongdate1"></a-player>
         </template>
       </template>
@@ -49,10 +49,13 @@ export default {
       return data.csongdate
     },
     useOne:function(){
+      console.log(this.$store.state.radioDate)
+      console.log(data.csongdate);
       if(this.$store.state.radioDate===data.csongdate){
        return data.useone
       }else{
         data.useone = !data.useone
+        data.csongdate = this.$store.state.radioDate
         return data.useone 
       }
       
@@ -68,7 +71,8 @@ export default {
   },
   watch:{
     songs:function(after,before){
-      data.csongdate = this.$store.state.radioDate
+      
+      // data.csongdate = this.$store.state.radioDate
   //   if(data.useone){
       if(before === null){
         return

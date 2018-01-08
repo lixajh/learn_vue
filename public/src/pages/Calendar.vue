@@ -49,7 +49,7 @@
       </div>
     </div>  
     </template>
-    <div v-for="data in newsList" class="card" style="padding:10px; margin 10px;" :key="data.mDate">
+    <div v-for="data in newsList" class="card" style="padding:10px; margin 10px;" >
       <div style="text-align:center;">---  {{dateToStr(data.mDate)}}  ---</div>
       <div v-if="data.news1">维基新闻：</div>
       <div v-html="data.news1"></div>
@@ -133,6 +133,7 @@ export default {
           pic: 'https://tva4.sinaimg.cn/crop.0.0.180.180.180/645ed684jw1e8qgp5bmzyj2050050aa8.jpg'
         }  
       ]
+  
       this.$store.commit('SET_SONGS', m_song1s)
       this.$store.commit('SET_RADIO_DATE', clickDate)   
 
