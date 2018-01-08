@@ -27,6 +27,7 @@
     "vue-dateutils": "^1.0.8",
     "vue-infinite-loading": "^2.2.3",
     "vue-mugen-scroll": "^0.2.5",
+    "vue-multiple-back-top": "^1.0.2",
     "vue-router": "^2.7.0",
     "vuex": "^2.4.0"
   },

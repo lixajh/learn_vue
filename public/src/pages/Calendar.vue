@@ -54,7 +54,7 @@
       </div>
     </div>  
     </template>
-    <div v-for="data in newsList" class="card" style="padding:10px; margin 10px;" >
+    <div v-for="data in newsList" class="card" style="padding:10px; margin 10px;">
       <div style="text-align:center;">---  {{dateToStr(data.mDate)}}  ---</div>
       <div v-if="data.news1">维基新闻：</div>
       <div v-html="data.news1"></div>
@@ -69,6 +69,10 @@
     </span>
     </infinite-loading>
  </template>
+
+ <vm-back-top :bottom="30" :right="10" :duration="500" :timing="'ease'">
+    <div class="top">TOP</div>
+  </vm-back-top>
 </div>
 
 </template>
@@ -77,6 +81,9 @@
 import Calendar from '../utils/calendar'
 import InfiniteLoading from 'vue-infinite-loading';
 import dateutils from 'vue-dateutils'
+import VmBackTop from 'vue-multiple-back-top'
+
+
 const C = new Calendar()
 let newsDate;
 let currentMonth;
@@ -107,15 +114,7 @@ export default {
        
         this.newsList = []
         //获取本月日历列表
-        data.calendarLoading=true
-        this.$store.dispatch('FETCH_NEW_MONTH',{ date:newsDate,addMonth: 0}).then(
-          (({  days }) => {
-             data.calendarLoading=false
-            C.generate(days).then(months =>{ 
-              this.months = months})   
-            currentMonth = days[0]      
-          }
-        ))
+        this.changeMonth(newsDate,0)
         //重设radio信息
         this.changeMusic(bDate)
       }
@@ -126,11 +125,26 @@ export default {
     dateToStr:function(timeLong){
       return dateutils.dateToStr("YYYY-MM-DD",new Date(timeLong))
     },
-    changeMusic:function(clickDate){
 
+    changeMonth:function(currentMonth,addMonth){
+        data.calendarLoading=true
+          this.$store.dispatch('FETCH_NEW_MONTH',{ date:currentMonth,addMonth: addMonth}).then(
+          (({  days }) => {
+            data.calendarLoading=false
+            if(days.length >0){
+              currentMonth = days[0]    
+              C.generate(days).then(months =>{ 
+              this.months = months})
+             
+            }         
+          }
+        ))
+    },
+    changeMusic:function(clickDate){
+      data.calendarLoading=true
       this.$store.dispatch('FETCH_CONTENT',{ date: clickDate}).then(
       content => {
-
+        data.calendarLoading=false
          let m_song1s = [     
         {
           title: clickDate,
@@ -168,45 +182,23 @@ export default {
             $state.complete();
             return;
           }
-
           this.newsList.push(responseBean.data.data)
           newsDate = dateutils.dateToStr("YYYY-MM-DD",new Date(responseBean.data.data.mDate))
           newsDate = dateutils.dateToStr("YYYY-MM-DD",dateutils.dateAdd('d', -1, new Date(newsDate)))
-          $state.loaded();
-          
-      })          
-     
+          $state.loaded();        
+      })              
        
     },
-    lastMonth:function(){
-          data.calendarLoading=true
-          this.$store.dispatch('FETCH_NEW_MONTH',{ date:currentMonth,addMonth: -1}).then(
-          (({  days }) => {
-            data.calendarLoading=false
-            if(days.length >0){
-              currentMonth = days[0]    
-              C.generate(days).then(months =>{ 
-              this.months = months})
-             
-            }         
-          }
-        ))
+    lastMonth:function(){         
+      this.changeMonth(currentMonth,-1)       
     },
     nextMonth:function(){
-      data.calendarLoading=true
-      this.$store.dispatch('FETCH_NEW_MONTH',{ date:currentMonth,addMonth: 1}).then(
-          (({  days }) => {
-            data.calendarLoading=false
-            currentMonth = days[0]    
-            C.generate(days).then(months =>{ 
-              this.months = months})
-          }
-        ))
-    }
-      
-      
+      this.changeMonth(currentMonth,1)
+    }           
   },
-  components: {InfiniteLoading,}
+  components: {
+    InfiniteLoading, VmBackTop
+  }
 }
 </script>
 
@@ -219,20 +211,30 @@ export default {
     margin   : 0 auto;
   }
 }
+.top{
+        padding: 5px;
+        background: rgba(99, 101, 102, 0.4);
+        color: #fff;
+        text-align: center;
+        border-radius: 3px;
+    }
+
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     border-radius: 5px;
     margin:20px;
     margin-top:25px;
-    background-color: white;
+    // background-color: white;
+    background-color: rgba(255, 255, 255, 0.95);
 }
 .calendar__contain {
   position     : relative;
   overflow     : hidden;
   margin:20px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  background-color: white;
+  // background-color: white;
+  background-color: rgba(255, 255, 255, 0.95);
   border-radius: 5px;
   padding: 2px;
   padding-top: 3px;
