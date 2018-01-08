@@ -4,11 +4,11 @@
     <header class="header">
       <h1>锵锵三人行·日历</h1>
       <template v-if="songs">
-        <template v-if="useOne">1
+        <template v-if="useOne">
           <a-player ref="player1" :music="songs" key="csongdate2"></a-player>
         </template>
 
-        <template v-else>      2 
+        <template v-else>
           <a-player ref="player2" :music="songs" key="csongdate1"></a-player>
         </template>
       </template>
@@ -24,6 +24,7 @@
 
 <script>
 import VueAplayer from 'vue-aplayer'
+
 let aplayer1
 let aplayer2
 
@@ -49,8 +50,7 @@ export default {
       return data.csongdate
     },
     useOne:function(){
-      console.log(this.$store.state.radioDate)
-      console.log(data.csongdate);
+
       if(this.$store.state.radioDate===data.csongdate){
        return data.useone
       }else{
@@ -74,9 +74,9 @@ export default {
       
       // data.csongdate = this.$store.state.radioDate
   //   if(data.useone){
-      if(before === null){
-        return
-      }
+      // if(before === null){
+      //   return
+      // }
       
       if(data.useone && (typeof(this.$refs.player1) != "undefined")){
 

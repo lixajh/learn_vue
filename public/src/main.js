@@ -3,10 +3,14 @@ import App from './App.vue'
 import { createRouter } from './router'
 import { createStore } from './store'
 
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
 const router = createRouter()
 const store = createStore()
 
 // sync(store, router)
+Vue.use(ElementUI)
 
 const app = new Vue({
   store,

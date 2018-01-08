@@ -1,7 +1,12 @@
 <template>
   <div>
     <template v-if="months">
-    <div class="calendar__contain">
+    <div
+      v-loading="calendarLoading" 
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(222, 222, 222, 0.6)"
+     class="calendar__contain">
       
 
       <div class="calendar__bd" v-for="month in months" :key="month.year+month.month" >
@@ -75,22 +80,22 @@ import dateutils from 'vue-dateutils'
 const C = new Calendar()
 let newsDate;
 let currentMonth;
+let data={
+      months: null,
+      newsList: null,
+      radioDate:null,
+      calendarLoading:false,
+      
+    };
 
 
 export default {
   name: 'Calendar',
   
   data () {
-    return {
-      months: null,
-      newsList: null,
-      radioDate:null,
-      
-    }
+    return data
   },
-  computed: {
-   
-  },
+  
   beforeMount () {
 
     this.$store.dispatch('FETCH_TODAY').then(
@@ -102,9 +107,10 @@ export default {
        
         this.newsList = []
         //获取本月日历列表
+        data.calendarLoading=true
         this.$store.dispatch('FETCH_NEW_MONTH',{ date:newsDate,addMonth: 0}).then(
           (({  days }) => {
-            
+             data.calendarLoading=false
             C.generate(days).then(months =>{ 
               this.months = months})   
             currentMonth = days[0]      
@@ -173,9 +179,10 @@ export default {
        
     },
     lastMonth:function(){
-
+          data.calendarLoading=true
           this.$store.dispatch('FETCH_NEW_MONTH',{ date:currentMonth,addMonth: -1}).then(
           (({  days }) => {
+            data.calendarLoading=false
             if(days.length >0){
               currentMonth = days[0]    
               C.generate(days).then(months =>{ 
@@ -186,8 +193,10 @@ export default {
         ))
     },
     nextMonth:function(){
+      data.calendarLoading=true
       this.$store.dispatch('FETCH_NEW_MONTH',{ date:currentMonth,addMonth: 1}).then(
           (({  days }) => {
+            data.calendarLoading=false
             currentMonth = days[0]    
             C.generate(days).then(months =>{ 
               this.months = months})
