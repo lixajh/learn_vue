@@ -3,7 +3,7 @@
     <template v-if="months">
     <div
       v-loading="calendarLoading" 
-      element-loading-text="拼命加载中"
+      element-loading-text="锵锵三人行，广告之后见"
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(222, 222, 222, 0.6)"
      class="calendar__contain">
@@ -126,9 +126,9 @@ export default {
       return dateutils.dateToStr("YYYY-MM-DD",new Date(timeLong))
     },
 
-    changeMonth:function(currentMonth,addMonth){
+    changeMonth:function(currentMonthTemp,addMonth){
         data.calendarLoading=true
-          this.$store.dispatch('FETCH_NEW_MONTH',{ date:currentMonth,addMonth: addMonth}).then(
+          this.$store.dispatch('FETCH_NEW_MONTH',{ date:currentMonthTemp,addMonth: addMonth}).then(
           (({  days }) => {
             data.calendarLoading=false
             if(days.length >0){

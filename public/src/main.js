@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 const router = createRouter()
 const store = createStore()
 
+document.getElementById("index_load").style.display="none";
 // sync(store, router)
 Vue.use(ElementUI)
 
