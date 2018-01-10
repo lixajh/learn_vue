@@ -7,14 +7,71 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="shortcut icon" href="/static/assets/favicon.ico" type="image/x-icon">
   <title>锵锵三人行·日历</title>
+
+  <style>
+    .typed-cursor{
+      opacity: 1;
+      animation: typedjsBlink 1s infinite;
+      -webkit-animation: typedjsBlink 1s infinite;
+              animation: typedjsBlink 1s infinite;
+    }
+    @keyframes typedjsBlink{
+      50% { opacity: 0.0; }
+    }
+    @-webkit-keyframes typedjsBlink{
+      0% { opacity: 1; }
+      50% { opacity: 0.0; }
+      100% { opacity: 1; }
+    }
+
+    .typed-fade-out{
+      opacity: 0;
+      transition: opacity .25s;
+      -webkit-animation: 0;
+              animation: 0;
+    }
+
+  </style>
+<script>
+
+  function typing(){
+    var typed = new Typed('.element', {
+      strings: ['欢迎光临','欢迎首次加载请稍微等一下。。。^1000国外的服务器实在太慢了，用了免费的cdn更慢。。。^500\n嗯？^500\n还没好^500，\n可能是服务器坏了吧。。。。。。\n^5000\n嗯？^500可能是真的坏了'],
+      typeSpeed: 100,
+      backSpeed: 100,
+      smartBackspace: true, // this is a default
+
+    });
+  }
+    
+  function loadJS(url, success) {
+    var domScript = document.createElement('script');
+    domScript.src = url;
+    success = success || function(){};
+    domScript.onload = domScript.onreadystatechange = function() {
+      if (!this.readyState || 'loaded' === this.readyState || 'complete' === this.readyState) {
+        success();
+        this.onload = this.onreadystatechange = null;
+        // this.parentNode.removeChild(this);
+      }
+    }
+    document.getElementsByTagName('head')[0].appendChild(domScript);
+  }
+
+  loadJS("https://cdn.rawgit.com/mattboldt/typed.js/master/lib/typed.min.js",typing)
+   
+</script>
 </head>
 
+
 <body>
-  <div id="index_load">
-    首次加载请稍微等一下。。。国外的服务器实在太慢了，用了免费的cdn更慢。。。
-  </div>
+  <span id="index_load" class="element" style="white-space:pre;"></span>
   <div id="app"></div>
-  <script src="/static/dist/build.js?v=0.15"></script>
+  <script src="/static/dist/build.js?v=0.16"></script>
+  <!-- <script src="http://qqsrx.site:8080/build.js"></script> -->
+
+  
+
 </body>
 
 </html>

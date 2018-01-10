@@ -92616,7 +92616,7 @@ const router = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__router__["a" /
 const store = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__store__["a" /* createStore */])()
 
 document.getElementById("index_load").style.display="none";
-// sync(store, router)
+
 __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODULE_4_element_ui___default.a)
 
 const app = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
