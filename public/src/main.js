@@ -9,6 +9,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 const router = createRouter()
 const store = createStore()
 
+document.getElementById("index_load").innerHTML="loaded";ss
+alert("aab"+document.getElementById("index_load").innerHTML);
 document.getElementById("index_load").style.display="none";
 
 Vue.use(ElementUI)

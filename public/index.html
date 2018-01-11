@@ -35,20 +35,30 @@
 <script>
 
   function typing(){
+    setTimeout(() => {
+      alert(document.getElementById("index_load").innerHTML)
+      if(document.getElementById("index_load").innerHTML=="loaded"){
+        return;
+      }
+      document.getElementById("index_load").style.display="";
     var typed = new Typed('.element', {
-      strings: ['欢迎光临','欢迎首次加载请稍微等一下。。。^1000国外的服务器实在太慢了，用了免费的cdn更慢。。。^500\n嗯？^500\n还没好^500，\n可能是服务器坏了吧。。。。。。\n^5000\n嗯？^500可能是真的坏了'],
+      strings: ['首次加载请稍微等一下。。。^1000国外的服务器实在太慢了，用了免费的cdn更慢。。。^500\n嗯？^500\n还没好？^500\n可能是服务器坏了吧。。。。。。\n^5000\n嗯？^500可能是真的坏了\n^5000实在不行就算了，这都超过15秒了'],
       typeSpeed: 100,
       backSpeed: 100,
-      smartBackspace: true, // this is a default
+      smartBackspace: true, // this is a defaul
 
     });
+    }, 2000);
+    
   }
     
   function loadJS(url, success) {
+   
     var domScript = document.createElement('script');
     domScript.src = url;
     success = success || function(){};
     domScript.onload = domScript.onreadystatechange = function() {
+     
       if (!this.readyState || 'loaded' === this.readyState || 'complete' === this.readyState) {
         success();
         this.onload = this.onreadystatechange = null;
@@ -58,17 +68,16 @@
     document.getElementsByTagName('head')[0].appendChild(domScript);
   }
 
-  loadJS("https://cdn.rawgit.com/mattboldt/typed.js/master/lib/typed.min.js",typing)
+  loadJS("https://cdn.bootcss.com/typed.js/2.0.6/typed.min.js",typing)
    
 </script>
 </head>
 
 
 <body>
-  <span id="index_load" class="element" style="white-space:pre;"></span>
+  <span id="index_load" class="element" style="white-space:pre-wrap;display:none"></span>
   <div id="app"></div>
-  <script src="/static/dist/build.js?v=0.16"></script>
-  <!-- <script src="http://qqsrx.site:8080/build.js"></script> -->
+  <script src="/static/dist/build.js?v=0.17"></script>
 
   
 
